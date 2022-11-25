@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookstore.R
 import com.example.bookstore.data.Book
+import com.example.bookstore.viewmodel.MainActivityViewModel
 import kotlinx.android.synthetic.main.book_list_row.view.*
 
-class BookListAdapter: RecyclerView.Adapter<BookListAdapter.MyViewHolder>() {
+class BookListAdapter(var viewModel: MainActivityViewModel): RecyclerView.Adapter<BookListAdapter.MyViewHolder>() {
 
     private var bookList: List<Book>? = null
 
@@ -26,6 +27,12 @@ class BookListAdapter: RecyclerView.Adapter<BookListAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(bookList?.get(position)!!)
+
+        holder.itemView.setOnClickListener {
+            val bookToRemove = bookList!!.get(position)
+
+            viewModel.deleteBookCall(bookToRemove.title)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookListAdapter.MyViewHolder {
